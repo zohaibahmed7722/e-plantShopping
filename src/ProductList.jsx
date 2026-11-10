@@ -3,13 +3,26 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addItem } from './CartSlice';
 import './ProductList.css';
 import CartItem from './CartItem';
+import AboutUs from './AboutUs';
 
-function ProductList({ onHomeClick }) {
+function ProductList({ onHomeClick, initialSection = 'plants' }) {
     const [showCart, setShowCart] = useState(false);
+    const [showAboutUs, setShowAboutUs] = useState(initialSection === 'about');
     const [addedToCart, setAddedToCart] = useState({});
 
     const dispatch = useDispatch();
     const cart = useSelector((state) => state.cart.items);
+
+    // Keep state in sync with initialSection when prop updates
+    useEffect(() => {
+        if (initialSection === 'about') {
+            setShowAboutUs(true);
+            setShowCart(false);
+        } else if (initialSection === 'plants') {
+            setShowAboutUs(false);
+            setShowCart(false);
+        }
+    }, [initialSection]);
 
     // Keep addedToCart synced with the Redux cart items
     useEffect(() => {
@@ -231,52 +244,71 @@ function ProductList({ onHomeClick }) {
     const styleObj = {
         backgroundColor: '#4CAF50',
         color: '#fff!important',
-        padding: '15px',
+        padding: '15px 30px',
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',
         fontSize: '20px',
+        position: 'sticky',
+        top: 0,
+        zIndex: 100,
+        boxShadow: '0 2px 10px rgba(0, 0, 0, 0.15)',
     };
 
     const styleObjUl = {
         display: 'flex',
-        justifyContent: 'space-between',
+        justifyContent: 'flex-end',
         alignItems: 'center',
-        width: '1100px',
+        gap: '40px',
     };
 
     const styleA = {
         color: 'white',
-        fontSize: '30px',
+        fontSize: '24px',
         textDecoration: 'none',
         cursor: 'pointer',
+        fontWeight: '500',
+        transition: 'opacity 0.2s ease',
     };
 
     const handleHomeClick = (e) => {
         if (e && e.preventDefault) {
             e.preventDefault();
         }
+        setShowAboutUs(false);
+        setShowCart(false);
         onHomeClick();
-    };
-
-    const handleCartClick = (e) => {
-        if (e && e.preventDefault) {
-            e.preventDefault();
-        }
-        setShowCart(true);
     };
 
     const handlePlantsClick = (e) => {
         if (e && e.preventDefault) {
             e.preventDefault();
         }
+        setShowAboutUs(false);
         setShowCart(false);
+    };
+
+    const handleAboutUsClick = (e) => {
+        if (e && e.preventDefault) {
+            e.preventDefault();
+        }
+        setShowAboutUs(true);
+        setShowCart(false);
+    };
+
+    const handleCartClick = (e) => {
+        if (e && e.preventDefault) {
+            e.preventDefault();
+        }
+        setShowAboutUs(false);
+        setShowCart(true);
     };
 
     const handleContinueShopping = (e) => {
         if (e && e.preventDefault) {
             e.preventDefault();
         }
+        setShowAboutUs(false);
         setShowCart(false);
     };
 
@@ -300,8 +332,8 @@ function ProductList({ onHomeClick }) {
                         <img src="https://cdn.pixabay.com/photo/2020/08/05/13/12/eco-5465432_1280.png" alt="Logo" />
                         <a href="/" onClick={(e) => handleHomeClick(e)}>
                             <div>
-                                <h3 style={{ color: 'white' }}>Paradise Nursery</h3>
-                                <i style={{ color: 'white' }}>Where Green Meets Serenity</i>
+                                <h3 style={{ color: 'white', margin: 0 }}>Paradise Nursery</h3>
+                                <i style={{ color: '#e8f5e9', fontSize: '14px' }}>Where Green Meets Serenity</i>
                             </div>
                         </a>
                     </div>
@@ -311,11 +343,26 @@ function ProductList({ onHomeClick }) {
                         <a href="#" onClick={(e) => handleHomeClick(e)} style={styleA}>Home</a>
                     </div>
                     <div>
-                        <a href="#" onClick={(e) => handlePlantsClick(e)} style={styleA}>Plants</a>
+                        <a 
+                            href="#" 
+                            onClick={(e) => handlePlantsClick(e)} 
+                            style={{ ...styleA, textDecoration: (!showCart && !showAboutUs) ? 'underline' : 'none' }}
+                        >
+                            Plants
+                        </a>
+                    </div>
+                    <div>
+                        <a 
+                            href="#" 
+                            onClick={(e) => handleAboutUsClick(e)} 
+                            style={{ ...styleA, textDecoration: showAboutUs ? 'underline' : 'none' }}
+                        >
+                            About Us
+                        </a>
                     </div>
                     <div>
                         <a href="#" onClick={(e) => handleCartClick(e)} style={styleA}>
-                            <h1 className="cart">
+                            <h1 className="cart" style={{ margin: 0 }}>
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" id="IconChangeColor" height="68" width="68">
                                     <rect width="156" height="156" fill="none"></rect>
                                     <circle cx="80" cy="216" r="12"></circle>
@@ -329,7 +376,11 @@ function ProductList({ onHomeClick }) {
                 </div>
             </div>
 
-            {!showCart ? (
+            {showCart ? (
+                <CartItem onContinueShopping={handleContinueShopping} />
+            ) : showAboutUs ? (
+                <AboutUs onStartShopping={handlePlantsClick} />
+            ) : (
                 <div className="product-grid">
                     {plantsArray.map((category, index) => (
                         <div key={index} className="category-section" style={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
@@ -360,8 +411,6 @@ function ProductList({ onHomeClick }) {
                         </div>
                     ))}
                 </div>
-            ) : (
-                <CartItem onContinueShopping={handleContinueShopping} />
             )}
         </div>
     );

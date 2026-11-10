@@ -1,37 +1,87 @@
-.about-us-container {
+.about-us-page-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 50px 20px;
+  min-height: calc(100vh - 120px);
+  background-color: #f0f0f0;
+}
+
+.about-us-card {
+  max-width: 850px;
   width: 100%;
-  max-width: 650px;
-  text-align: justify;
-  color: #ffffff;
+  background: #ffffff;
+  padding: 50px 45px;
+  border-radius: 14px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  border: 1px solid #e2e8f0;
 }
 
 .about-us-heading {
-  font-size: 32px;
-  font-weight: bold;
-  color: #ffffff;
-  margin-bottom: 20px;
+  font-size: 38px;
+  font-weight: 700;
+  color: #2e7d32;
+  margin-bottom: 10px;
   text-align: center;
 }
 
 .about-us-description {
   font-size: 22px;
-  font-weight: bold;
-  color: #ffffff;
-  margin-bottom: 25px;
+  font-weight: 500;
+  color: #555555;
+  margin-bottom: 20px;
   text-align: center;
+  font-style: italic;
+}
+
+.about-us-divider {
+  width: 80px;
+  height: 3px;
+  background-color: #4caf50;
+  margin: 0 auto 30px auto;
+  border-radius: 2px;
 }
 
 .about-us-content {
-  font-size: 16px;
-  line-height: 1.6;
-  margin-bottom: 18px;
-  color: rgba(255, 255, 255, 0.92);
+  font-size: 18px;
+  line-height: 1.8;
+  margin-bottom: 20px;
+  color: #333333;
+  text-align: justify;
 }
 
-.plant_logo_right {
-  text-align: right;
+.about-us-action {
+  text-align: center;
+  margin-top: 35px;
 }
 
-.plant_logo_left {
-  text-align: left;
+.about-us-shop-btn {
+  padding: 14px 35px;
+  font-size: 20px;
+  font-weight: 600;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+}
+
+.about-us-shop-btn:hover {
+  background-color: #388e3c;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(76, 175, 80, 0.4);
+}
+
+@media (max-width: 768px) {
+  .about-us-card {
+    padding: 30px 20px;
+  }
+  .about-us-heading {
+    font-size: 28px;
+  }
+  .about-us-content {
+    font-size: 16px;
+  }
 }
