@@ -5,12 +5,24 @@
   box-sizing: border-box;
 }
 
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  overflow-x: hidden;
+}
+
 .landing-page {
   position: relative;
   width: 100vw;
   height: 100vh;
   background-color: #f8f8f8;
   overflow: hidden;
+  transition: opacity 0.3s ease;
+}
+
+.landing-page.fade-out {
+  display: none;
 }
 
 .background-image {
@@ -97,26 +109,17 @@
 /* ProductList.css */
 
 .product-list-container {
-  position: absolute;
-  overflow-x: hidden;
-  top: 100vh;
-  /* Initially off-screen */
-  left: 0;
+  display: none;
   width: 100%;
-  height: 100vh;
-  background-color: rgba(255, 255, 255, 0.95);
-  /* Adjust background opacity as needed */
-  transition: top 0.5s ease;
-  /* Smooth transition for top property */
-  overflow-y: auto;
-  /* Enable vertical scrolling */
+  min-height: 100vh;
+  background-color: #f0f0f0;
+  position: relative;
   z-index: 2;
-  /* Ensure it's above landing page content */
-  backdrop-filter: blur(5px);
+  overflow-y: auto;
 }
 
 .product-list-container.visible {
-  top: 0;
+  display: block;
 }
 
 /* Responsive Styles */
